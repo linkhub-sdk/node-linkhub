@@ -1,0 +1,28 @@
+{
+  "name": "linkhub",
+  "version": "1.0.0",
+  "description": "linkhub auth modules for www.linkhub.co.kr",
+  "author": "Kim Seongjun <pallet027@gmail.com>",
+  "contributors": [{
+    "name": "Kim Seongjun",
+    "email": "pallet027@gmail.com"
+  }],
+  "main": "index.js",
+  "engines": { 
+    "node": ">= 0.10.0"
+  }, 
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/linkhub-sdk/node-linkhub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/linkhub-sdk/node-linkhub/issues"
+  },
+  "keywords": [
+    "linkhub",
+    "sdk"
+  ],
+  "preferGlobal": true,
+  "subdomain": "linkhub",
+  "license": "MIT"
+}
