@@ -8,7 +8,7 @@ linkhub.initialize({
   }
 });
 
-var token = linkhub.newToken('POPBILL_TEST','1231212312',['member','110'],null);
+var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null);
 
 linkhub.getBalance(
   Token = token,
@@ -24,5 +24,12 @@ linkhub.getPartnerBalance(
   Token = token,
   success = function(point){
     console.log('RemainPartnerPoint is '+ point);
+  }
+);
+
+
+linkhub.getTime(
+  success = function(UTCTime){
+    console.log('UTCServerTime is '+ UTCTime);
   }
 );

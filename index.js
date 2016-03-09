@@ -22,9 +22,9 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
     var md5 = crypto.createHash('md5');
     md5.update(TokenRequest);
     var bodyDigest = md5.digest('base64');
-    
-    var digestTarget = 
-      'POST\n' + 
+
+    var digestTarget =
+      'POST\n' +
       bodyDigest + '\n' +
       xDate +'\n' +
       (ForwardIP ? ForwardIP + '\n' : '') +
@@ -59,11 +59,30 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
   };
 }
 
+exports.getTime = function(success,error){
+
+  var options = {
+    host : 'auth.linkhub.co.kr',
+    path : '/Time',
+    method : 'GET'
+  }
+
+  http.request(options,function(response) {
+    var res = '';
+    response.on('data',function(chunk) {
+      res += chunk;
+    });
+    response.on('end',function(){
+      if(this.statusCode == '200') success(res);
+      else if(error) error(res);
+    });
+  }).end(null);
+}
 
 exports.getBalance = function(Token,success,error) {
 
     var _this = this;
-     
+
     Token(function(token) {
        var options = {
           host : 'auth.linkhub.co.kr',
@@ -74,20 +93,20 @@ exports.getBalance = function(Token,success,error) {
 
         var req = _this.httpRequest(null,options);
 
-        req(function(response){ 
+        req(function(response){
           if(success) success(response.remainPoint);
         },(typeof error === 'function') ? error : _this._options.defaultErrorHandler);
 
     },(typeof error === 'function') ? error : _this._options.defaultErrorHandler);
- 
- 
+
+
   return true;
 }
 
 exports.getPartnerBalance = function(Token,success,error) {
 
     var _this = this;
-     
+
     Token(function(token) {
        var options = {
           host : 'auth.linkhub.co.kr',
@@ -98,13 +117,13 @@ exports.getPartnerBalance = function(Token,success,error) {
 
         var req = _this.httpRequest(null,options);
 
-        req(function(response){ 
+        req(function(response){
           if(success) success(response.remainPoint);
         },error ? error : _this._options.defaultErrorHandler);
 
     },(typeof error === 'function') ? error : _this._options.defaultErrorHandler);
- 
- 
+
+
   return true;
 }
 
@@ -123,7 +142,7 @@ exports.httpRequest = function(data,options) {
       response.on('end',function(){
         if(this.statusCode == '200') success(JSON.parse(res));
         else if(error) error(JSON.parse(res));
-      });  
+      });
     }).end(data);
   }
 }
