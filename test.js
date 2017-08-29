@@ -10,6 +10,12 @@ linkhub.initialize({
 
 var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null);
 
+token(
+  success = function(tk){
+    console.log('token expiration : ' + tk.expiration);
+  }
+);
+
 linkhub.getBalance(
   Token = token,
   success = function(point){
@@ -31,5 +37,13 @@ linkhub.getPartnerBalance(
 linkhub.getTime(
   success = function(UTCTime){
     console.log('UTCServerTime is '+ UTCTime);
+  }
+);
+
+linkhub.getPartnerURL(
+  Token = token,
+  "CHRG",
+  success = function(url){
+    console.log('GetPartnerURL Response is '+ url);
   }
 );

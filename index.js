@@ -127,6 +127,31 @@ exports.getPartnerBalance = function(Token,success,error) {
   return true;
 }
 
+// 파트너 포인트 충전 URL 추가 - 2017/08/29
+exports.getPartnerURL = function(Token,TOGO,success,error) {
+
+    var _this = this;
+
+    Token(function(token) {
+       var options = {
+          host : 'auth.linkhub.co.kr',
+          path : '/' + token.serviceID + '/URL?TG='+TOGO,
+          method : 'GET',
+          headers : {Authorization : 'Bearer ' + token.session_token}
+        }
+
+        var req = _this.httpRequest(null,options);
+
+        req(function(response){
+          if(success) success(response.url);
+        },(typeof error === 'function') ? error : _this._options.defaultErrorHandler);
+
+    },(typeof error === 'function') ? error : _this._options.defaultErrorHandler);
+
+
+  return true;
+}
+
 exports.stringify = function(obj) {
   return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});
 }
