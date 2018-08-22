@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 var http = require('https');
 var LINKHUB_API_VERSION = "1.0";
+var _token = undefined;
 
 exports.initialize = function(options) {
   this._options = options;
@@ -8,7 +9,6 @@ exports.initialize = function(options) {
 
 exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
   var _this = this;
-  var _token = undefined;
   return function(callback,error) {
     if(_token) {
       callback(_token);
