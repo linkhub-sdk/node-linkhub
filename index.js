@@ -10,7 +10,7 @@ exports.initialize = function(options) {
 exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UTCTime,CachedYN) {
   var _this = this;
   return function(callback,error) {
-    if((CachedYN === false) && _token) {
+    if((CachedYN !== "R") && _token) {
       callback(_token);
       return _token;
     }
