@@ -1,21 +1,22 @@
 var crypto = require('crypto');
 var http = require('https');
+var request = require('sync-request');
 var LINKHUB_API_VERSION = "1.0";
-var _token = undefined;
 
 exports.initialize = function(options) {
   this._options = options;
 }
 
-exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UTCTime,CachedYN) {
+exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
   var _this = this;
+  var _token = undefined;
+
   return function(callback,error) {
-    if((CachedYN !== "R") && _token) {
+    if(_token) {
       callback(_token);
       return _token;
     }
-
-    var xDate = UTCTime;
+    var xDate = _this.getTime();
     var uri = '/' + ServiceID + '/Token';
     var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
 
@@ -152,4 +153,12 @@ exports.httpRequest = function(data,options) {
       });
     }).end(data);
   }
+}
+
+exports.getTime = function(){
+  var response = request(
+    'GET',
+    'https://auth.linkhub.co.kr/Time'
+    );
+    return response.body.toString('utf8');
 }
