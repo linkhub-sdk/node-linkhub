@@ -7,15 +7,15 @@ exports.initialize = function(options) {
   this._options = options;
 }
 
-exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
+exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UTCTime,CachedYN) {
   var _this = this;
   return function(callback,error) {
-    if(_token) {
+    if((CachedYN === false) && _token) {
       callback(_token);
       return _token;
     }
 
-    var xDate = new Date().toISOString();
+    var xDate = UTCTime;
     var uri = '/' + ServiceID + '/Token';
     var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
 
@@ -59,25 +59,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
   };
 }
 
-exports.getTime = function(success,error){
 
-  var options = {
-    host : 'auth.linkhub.co.kr',
-    path : '/Time',
-    method : 'GET'
-  }
-
-  http.request(options,function(response) {
-    var res = '';
-    response.on('data',function(chunk) {
-      res += chunk;
-    });
-    response.on('end',function(){
-      if(this.statusCode == '200') success(res);
-      else if(error) error(res);
-    });
-  }).end(null);
-}
 
 exports.getBalance = function(Token,success,error) {
 
