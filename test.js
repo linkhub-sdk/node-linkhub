@@ -12,7 +12,7 @@ var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null);
 
 token(
   success = function(tk){
-    console.log('token expiration : ' + tk.expiration);
+    console.log('' + tk.expiration);
   }
 );
 
@@ -41,7 +41,6 @@ linkhub.getPartnerURL(
     console.log('GetPartnerURL Response is '+ url);
   }
 );
-
 
 
 linkhub.getTime(

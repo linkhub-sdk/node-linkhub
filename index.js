@@ -1,6 +1,6 @@
 var crypto = require('crypto');
 var http = require('https');
-var then_request = require('then-request');
+var request = require('sync-request');
 var LINKHUB_API_VERSION = "1.0";
 
 exports.initialize = function(options) {
@@ -17,50 +17,50 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
       return _token;
     }
 
-    var getUTCTime = _this.getTime(callback, error)
+    if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
 
-    getUTCTime(function(xDate){
-      var uri = '/' + ServiceID + '/Token';
-      var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
+    var xDate = _this.getTime(_this._options.UseLocalTimeYN);
 
-      var md5 = crypto.createHash('md5');
-      md5.update(TokenRequest);
-      var bodyDigest = md5.digest('base64');
+    var uri = '/' + ServiceID + '/Token';
+    var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
 
-      var digestTarget =
-        'POST\n' +
-        bodyDigest + '\n' +
-        xDate +'\n' +
-        (ForwardIP ? ForwardIP + '\n' : '') +
-        LINKHUB_API_VERSION + '\n' +
-        uri;
+    var md5 = crypto.createHash('md5');
+    md5.update(TokenRequest);
+    var bodyDigest = md5.digest('base64');
 
-      var hmac = crypto.createHmac('sha1',new Buffer(_this._options.SecretKey,'base64'));
-      hmac.update(digestTarget);
-      var digest = hmac.digest('base64');
+    var digestTarget =
+      'POST\n' +
+      bodyDigest + '\n' +
+      xDate +'\n' +
+      (ForwardIP ? ForwardIP + '\n' : '') +
+      LINKHUB_API_VERSION + '\n' +
+      uri;
 
-      var headers = {
-        'x-lh-date' : xDate,
-        'x-lh-version' : LINKHUB_API_VERSION,
-        'Authorization' : 'LINKHUB ' + _this._options.LinkID + ' ' + digest,
-        'Content-Type' : 'Application/json'
-      }
+    var hmac = crypto.createHmac('sha1',new Buffer(_this._options.SecretKey,'base64'));
+    hmac.update(digestTarget);
+    var digest = hmac.digest('base64');
 
-      if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
+    var headers = {
+      'x-lh-date' : xDate,
+      'x-lh-version' : LINKHUB_API_VERSION,
+      'Authorization' : 'LINKHUB ' + _this._options.LinkID + ' ' + digest,
+      'Content-Type' : 'Application/json'
+    }
 
-      var options = {
-        host : 'auth.linkhub.co.kr',
-        path : uri,
-        method : 'POST',
-        headers : headers
-      };
+    if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
 
-      var req = _this.httpRequest(TokenRequest,options);
+    var options = {
+      host : 'auth.linkhub.co.kr',
+      path : uri,
+      method : 'POST',
+      headers : headers
+    };
 
-      req(function(tk) {_token = tk;callback(tk);},error ? error : _this._options.defaultErrorHandler);
+    var req = _this.httpRequest(TokenRequest,options);
 
-      return true;
-    });
+    req(function(tk) {_token = tk;callback(tk);},error ? error : _this._options.defaultErrorHandler);
+
+    return true;
   };
 }
 
@@ -159,11 +159,14 @@ exports.httpRequest = function(data,options) {
   }
 }
 
-exports.getTime = function(success, error){
-  return function(success,error){
-    then_request('GET', 'https://auth.linkhub.co.kr/Time').done(function(res){
-    var xDate = res.getBody().toString('utf-8');
-    if(xDate) success(xDate);
-  });
+exports.getTime = function(UseLocalTimeYN){
+  if(UseLocalTimeYN){
+    return new Date().toISOString();
+  } else {
+    var response = request(
+      'GET',
+      'https://auth.linkhub.co.kr/Time'
+      );
+      return response.body.toString('utf8');
   }
 }
