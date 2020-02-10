@@ -17,9 +17,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
       return _token;
     }
 
-    if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
-
-    var xDate = _this.getTime(_this._options.UseLocalTimeYN);
+    var xDate = _this.getTime();
 
     var uri = '/' + ServiceID + '/Token';
     var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
@@ -159,8 +157,14 @@ exports.httpRequest = function(data,options) {
   }
 }
 
-exports.getTime = function(UseLocalTimeYN){
-  if(UseLocalTimeYN){
+exports.getTime = function(){
+  var _this = this;
+
+  console.log(_this._options.UseLocalTimeYN);
+  if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
+
+  if(_this._options.UseLocalTimeYN){
+
     return new Date().toISOString();
   } else {
     var response = request(
