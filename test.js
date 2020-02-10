@@ -33,13 +33,6 @@ linkhub.getPartnerBalance(
   }
 );
 
-
-linkhub.getTime(
-  success = function(UTCTime){
-    console.log('UTCServerTime is '+ UTCTime);
-  }
-);
-
 linkhub.getPartnerURL(
   Token = token,
   "CHRG",
