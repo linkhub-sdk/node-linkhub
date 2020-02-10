@@ -17,9 +17,9 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
       return _token;
     }
 
-    then_request('GET', 'https://auth.linkhub.co.kr/Time').done(function(res){
-      var xDate = res.getBody().toString('utf-8')
+    var getUTCTime = _this.getTime(callback, error)
 
+    getUTCTime(function(xDate){
       var uri = '/' + ServiceID + '/Token';
       var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
 
@@ -61,8 +61,6 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
 
       return true;
     });
-
-
   };
 }
 
@@ -158,5 +156,14 @@ exports.httpRequest = function(data,options) {
         else if(error) error(JSON.parse(res));
       });
     }).end(data);
+  }
+}
+
+exports.getTime = function(success, error){
+  return function(success,error){
+    then_request('GET', 'https://auth.linkhub.co.kr/Time').done(function(res){
+    var xDate = res.getBody().toString('utf-8');
+    if(xDate) success(xDate);
+  });
   }
 }
