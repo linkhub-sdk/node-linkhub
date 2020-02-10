@@ -160,7 +160,6 @@ exports.httpRequest = function(data,options) {
 exports.getTime = function(){
   var _this = this;
 
-  console.log(_this._options.UseLocalTimeYN);
   if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
 
   if(_this._options.UseLocalTimeYN){
