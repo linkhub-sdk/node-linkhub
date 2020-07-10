@@ -48,8 +48,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
     if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
 
     var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
-    console.log("newToken : " +hostURL);
-
+    
     var options = {
       host : hostURL,
       path : uri,
