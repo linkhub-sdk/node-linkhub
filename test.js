@@ -8,7 +8,7 @@ linkhub.initialize({
   }
 });
 
-var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null);
+var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null,true);
 
 token(
   success = function(tk){
@@ -17,7 +17,7 @@ token(
 );
 
 linkhub.getBalance(
-  Token = token,
+  Token = token, true,
   success = function(point){
     console.log('RemainPoint is '+ point);
   },
@@ -27,7 +27,7 @@ linkhub.getBalance(
 );
 
 linkhub.getPartnerBalance(
-  Token = token,
+  Token = token,true,
   success = function(point){
     console.log('RemainPartnerPoint is '+ point);
   }
@@ -35,7 +35,7 @@ linkhub.getPartnerBalance(
 
 
 linkhub.getPartnerURL(
-  Token = token,
+  Token = token,true,
   "CHRG",
   success = function(url){
     console.log('GetPartnerURL Response is '+ url);
@@ -43,7 +43,7 @@ linkhub.getPartnerURL(
 );
 
 
-linkhub.getTime(
+linkhub.getTime(true,
   success = function(UTCTime){
     console.log('UTCServerTime is '+ UTCTime);
   }

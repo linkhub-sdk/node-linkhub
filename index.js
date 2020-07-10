@@ -7,7 +7,7 @@ exports.initialize = function(options) {
   this._options = options;
 }
 
-exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
+exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
   var _this = this;
   var _token = undefined;
 
@@ -17,7 +17,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
       return _token;
     }
 
-    var xDate = _this.getTime();
+    var xDate = _this.getTime(UseStaticIP);
 
     var uri = '/' + ServiceID + '/Token';
     var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
@@ -47,8 +47,11 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
 
     if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
 
+    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    console.log("newToken : " +hostURL);
+
     var options = {
-      host : 'auth.linkhub.co.kr',
+      host : hostURL,
       path : uri,
       method : 'POST',
       headers : headers
@@ -64,13 +67,15 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP) {
 
 
 
-exports.getBalance = function(Token,success,error) {
+exports.getBalance = function(Token,UseStaticIP,success,error) {
 
     var _this = this;
+    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    console.log("getBalance : " +hostURL);
 
     Token(function(token) {
        var options = {
-          host : 'auth.linkhub.co.kr',
+          host : hostURL,
           path : '/' + token.serviceID + '/Point',
           method : 'GET',
           headers : {Authorization : 'Bearer ' + token.session_token}
@@ -88,13 +93,15 @@ exports.getBalance = function(Token,success,error) {
   return true;
 }
 
-exports.getPartnerBalance = function(Token,success,error) {
+exports.getPartnerBalance = function(Token,UseStaticIP,success,error) {
 
     var _this = this;
+    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    console.log("getPartnerBalance : " +hostURL);
 
     Token(function(token) {
        var options = {
-          host : 'auth.linkhub.co.kr',
+          host : hostURL,
           path : '/' + token.serviceID + '/PartnerPoint',
           method : 'GET',
           headers : {Authorization : 'Bearer ' + token.session_token}
@@ -113,13 +120,15 @@ exports.getPartnerBalance = function(Token,success,error) {
 }
 
 // 파트너 포인트 충전 URL 추가 - 2017/08/29
-exports.getPartnerURL = function(Token,TOGO,success,error) {
+exports.getPartnerURL = function(Token,UseStaticIP,TOGO,success,error) {
 
     var _this = this;
+    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    console.log("getPartnerURL : " +hostURL);
 
     Token(function(token) {
        var options = {
-          host : 'auth.linkhub.co.kr',
+          host : hostURL,
           path : '/' + token.serviceID + '/URL?TG='+TOGO,
           method : 'GET',
           headers : {Authorization : 'Bearer ' + token.session_token}
@@ -157,18 +166,19 @@ exports.httpRequest = function(data,options) {
   }
 }
 
-exports.getTime = function(){
+exports.getTime = function(UseStaticIP){
   var _this = this;
 
+  var hostURL = UseStaticIP ? 'https://ga-auth.linkhub.co.kr' : 'https://auth.linkhub.co.kr';
+  console.log("getTime : " +hostURL);
+
   if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
-
   if(_this._options.UseLocalTimeYN){
-
     return new Date().toISOString();
   } else {
     var response = request(
       'GET',
-      'https://auth.linkhub.co.kr/Time'
+      hostURL
       );
       return response.body.toString('utf8');
   }

@@ -1,12 +1,16 @@
 {
   "name": "linkhub",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "linkhub auth modules for www.linkhub.co.kr",
   "author": "Kim Seongjun <pallet027@gmail.com>",
   "contributors": [
     {
       "name": "Kim Seongjun",
       "email": "pallet027@gmail.com"
+    }
+    {
+      "name": "John Jeong",
+      "email": "dev@linkhub.co.kr"
     }
   ],
   "main": "index.js",
