@@ -48,7 +48,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
     if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
 
     var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
-    
+
     var options = {
       host : hostURL,
       path : uri,
@@ -70,7 +70,6 @@ exports.getBalance = function(Token,UseStaticIP,success,error) {
 
     var _this = this;
     var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
-    console.log("getBalance : " +hostURL);
 
     Token(function(token) {
        var options = {
@@ -96,7 +95,6 @@ exports.getPartnerBalance = function(Token,UseStaticIP,success,error) {
 
     var _this = this;
     var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
-    console.log("getPartnerBalance : " +hostURL);
 
     Token(function(token) {
        var options = {
@@ -123,8 +121,7 @@ exports.getPartnerURL = function(Token,UseStaticIP,TOGO,success,error) {
 
     var _this = this;
     var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
-    console.log("getPartnerURL : " +hostURL);
-
+    
     Token(function(token) {
        var options = {
           host : hostURL,
@@ -169,7 +166,6 @@ exports.getTime = function(UseStaticIP){
   var _this = this;
 
   var hostURL = UseStaticIP ? 'https://ga-auth.linkhub.co.kr' : 'https://auth.linkhub.co.kr';
-  console.log("getTime : " +hostURL);
 
   if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
   if(_this._options.UseLocalTimeYN){
