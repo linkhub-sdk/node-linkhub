@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var http_tls = require('https');
 var http_request = require('http');
 var request = require('sync-request');
-var LINKHUB_API_VERSION = "1.0";
+var LINKHUB_API_VERSION = "2.0";
 
 exports.initialize = function(options) {
   this._options = options;
@@ -23,9 +23,9 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
     var uri = '/' + ServiceID + '/Token';
     var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
 
-    var md5 = crypto.createHash('md5');
-    md5.update(TokenRequest);
-    var bodyDigest = md5.digest('base64');
+    var sha256 = crypto.createHash('sha256');
+    sha256.update(TokenRequest);
+    var bodyDigest = sha256.digest('base64');
 
     var digestTarget =
       'POST\n' +
@@ -35,7 +35,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
       LINKHUB_API_VERSION + '\n' +
       uri;
 
-    var hmac = crypto.createHmac('sha1',new Buffer(_this._options.SecretKey,'base64'));
+    var hmac = crypto.createHmac('sha256',new Buffer(_this._options.SecretKey,'base64'));
     hmac.update(digestTarget);
     var digest = hmac.digest('base64');
 

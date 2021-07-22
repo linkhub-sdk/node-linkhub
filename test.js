@@ -12,11 +12,11 @@ linkhub.initialize({
 
 var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null,true);
 
-token(
-  success = function(tk){
-    console.log('' + tk.expiration);
-  }
-);
+// token(
+//   success = function(tk){
+//     console.log('' + tk.expiration);
+//   }
+// );
 
 linkhub.getBalance(
   Token = token, true,
@@ -27,26 +27,26 @@ linkhub.getBalance(
     console.log('예외 발생 : [' + linkhubException.code + '] ' + linkhubException.message);
   }
 );
-
-linkhub.getPartnerBalance(
-  Token = token,true,
-  success = function(point){
-    console.log('RemainPartnerPoint is '+ point);
-  }
-);
-
-
-linkhub.getPartnerURL(
-  Token = token,true,
-  "CHRG",
-  success = function(url){
-    console.log('GetPartnerURL Response is '+ url);
-  }
-);
-
-
-linkhub.getTime(true,
-  success = function(UTCTime){
-    console.log('UTCServerTime is '+ UTCTime);
-  }
-);
+//
+// linkhub.getPartnerBalance(
+//   Token = token,true,
+//   success = function(point){
+//     console.log('RemainPartnerPoint is '+ point);
+//   }
+// );
+//
+//
+// linkhub.getPartnerURL(
+//   Token = token,true,
+//   "CHRG",
+//   success = function(url){
+//     console.log('GetPartnerURL Response is '+ url);
+//   }
+// );
+//
+//
+// linkhub.getTime(true,
+//   success = function(UTCTime){
+//     console.log('UTCServerTime is '+ UTCTime);
+//   }
+// );
