@@ -8,7 +8,7 @@ exports.initialize = function(options) {
   this._options = options;
 }
 
-exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
+exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP,UseGAIP) {
   var _this = this;
   var _token = undefined;
 
@@ -18,7 +18,7 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
       return _token;
     }
 
-    var xDate = _this.getTime(UseStaticIP);
+    var xDate = _this.getTime(UseStaticIP,UseGAIP);
 
     var uri = '/' + ServiceID + '/Token';
     var TokenRequest = _this.stringify({access_id : AccessID, scope : Scopes});
@@ -48,9 +48,9 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
 
     if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
 
-    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    var targetURL = _this.getTargetURL(UseStaticIP, UseGAIP);
     var options = {
-      host : hostURL,
+      host : targetURL,
       path : uri,
       method : 'POST',
       headers : headers
@@ -66,13 +66,14 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP) {
 
 
 
-exports.getBalance = function(Token,UseStaticIP,success,error) {
+exports.getBalance = function(Token,UseStaticIP,UseGAIP,success,error) {
 
     var _this = this;
-    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    var targetURL = _this.getTargetURL(UseStaticIP, UseGAIP);
+
     Token(function(token) {
        var options = {
-          host : hostURL,
+          host : targetURL,
           path : '/' + token.serviceID + '/Point',
           method : 'GET',
           headers : {Authorization : 'Bearer ' + token.session_token}
@@ -90,13 +91,13 @@ exports.getBalance = function(Token,UseStaticIP,success,error) {
   return true;
 }
 
-exports.getPartnerBalance = function(Token,UseStaticIP,success,error) {
+exports.getPartnerBalance = function(Token,UseStaticIP,UseGAIP,success,error) {
 
     var _this = this;
-    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    var targetURL = _this.getTargetURL(UseStaticIP, UseGAIP);
     Token(function(token) {
        var options = {
-          host : hostURL,
+          host : targetURL,
           path : '/' + token.serviceID + '/PartnerPoint',
           method : 'GET',
           headers : {Authorization : 'Bearer ' + token.session_token}
@@ -115,13 +116,14 @@ exports.getPartnerBalance = function(Token,UseStaticIP,success,error) {
 }
 
 // 파트너 포인트 충전 URL 추가 - 2017/08/29
-exports.getPartnerURL = function(Token,UseStaticIP,TOGO,success,error) {
+exports.getPartnerURL = function(Token,UseStaticIP,UseGAIP,TOGO,success,error) {
 
     var _this = this;
-    var hostURL = UseStaticIP ? 'ga-auth.linkhub.co.kr' : 'auth.linkhub.co.kr';
+    var targetURL = _this.getTargetURL(UseStaticIP, UseGAIP);
+
     Token(function(token) {
        var options = {
-          host : hostURL,
+          host : targetURL,
           path : '/' + token.serviceID + '/URL?TG='+TOGO,
           method : 'GET',
           headers : {Authorization : 'Bearer ' + token.session_token}
@@ -183,12 +185,12 @@ exports.httpRequest = function(data,options) {
 
 }
 
-exports.getTime = function(UseStaticIP){
+exports.getTime = function(UseStaticIP, UseGAIP){
   var _this = this;
 
-  var hostURL = UseStaticIP ? 'https://ga-auth.linkhub.co.kr' : 'https://auth.linkhub.co.kr';
+  var targetURL = _this.getTargetURL(UseStaticIP, UseGAIP);
 
-  if(_this._options.AuthURL != undefined) hostURL = _this._options.AuthURL;
+  if(_this._options.AuthURL != undefined) targetURL = _this._options.AuthURL;
 
   if(_this._options.UseLocalTimeYN == undefined) _this._options.UseLocalTimeYN = true;
 
@@ -197,8 +199,19 @@ exports.getTime = function(UseStaticIP){
   } else {
     var response = request(
       'GET',
-      hostURL +"/Time"
+      targetURL +"/Time"
       );
       return response.body.toString('utf8');
+ }
+}
+
+exports.getTargetURL = function(UseStaticIP, UseGAIP){
+
+  if(UseGAIP){
+      return 'https://ga-auth.linkhub.co.kr'
+  } else if(UseStaticIP){
+      return 'https://static-auth.linkhub.co.kr'
+  } else {
+      return 'https://auth.linkhub.co.kr'
   }
 }

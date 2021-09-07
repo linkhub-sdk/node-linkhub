@@ -10,23 +10,25 @@ linkhub.initialize({
   }
 });
 
-var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null,true);
-
+var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null,true,true);
+//
 // token(
 //   success = function(tk){
 //     console.log('' + tk.expiration);
 //   }
 // );
 
-linkhub.getBalance(
-  Token = token, true,
-  success = function(point){
-    console.log('RemainPoint is '+ point);
-  },
-  error = function(linkhubException) {
-    console.log('예외 발생 : [' + linkhubException.code + '] ' + linkhubException.message);
-  }
-);
+// linkhub.getBalance(
+//   Token = token, true,
+//   success = function(point){
+//     console.log('RemainPoint is '+ point);
+//   },
+//   error = function(linkhubException) {
+//     console.log('예외 발생 : [' + linkhubException.code + '] ' + linkhubException.message);
+//   }
+// );
+
+// console.log(linkhub.getTargetURL(false, true))
 //
 // linkhub.getPartnerBalance(
 //   Token = token,true,
@@ -37,16 +39,16 @@ linkhub.getBalance(
 //
 //
 // linkhub.getPartnerURL(
-//   Token = token,true,
+//   Token = token,true,true,
 //   "CHRG",
 //   success = function(url){
 //     console.log('GetPartnerURL Response is '+ url);
+//   },
+//   error = function(e){
+//       console.log('예외 발생');
 //   }
 // );
 //
-//
-// linkhub.getTime(true,
-//   success = function(UTCTime){
-//     console.log('UTCServerTime is '+ UTCTime);
-//   }
-// );
+
+// console.log(linkhub.getTime(false, false));
+// console.log(exports)
