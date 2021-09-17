@@ -208,10 +208,10 @@ exports.getTime = function(UseStaticIP, UseGAIP){
 exports.getTargetURL = function(UseStaticIP, UseGAIP){
 
   if(UseGAIP){
-      return 'https://ga-auth.linkhub.co.kr'
+      return 'ga-auth.linkhub.co.kr'
   } else if(UseStaticIP){
-      return 'https://static-auth.linkhub.co.kr'
+      return 'static-auth.linkhub.co.kr'
   } else {
-      return 'https://auth.linkhub.co.kr'
+      return 'auth.linkhub.co.kr'
   }
 }
