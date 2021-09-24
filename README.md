@@ -1,5 +1,5 @@
 # node-linkhub
-링크허브 node.js SDK v1.6.0
+링크허브 node.js SDK v1.7.0
 
 ## Install
 
