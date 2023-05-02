@@ -43,7 +43,8 @@ exports.newToken = function(ServiceID,AccessID,Scopes,ForwardIP,UseStaticIP,UseG
       'x-lh-date' : xDate,
       'x-lh-version' : LINKHUB_API_VERSION,
       'Authorization' : 'LINKHUB ' + _this._options.LinkID + ' ' + digest,
-      'Content-Type' : 'Application/json'
+      'Content-Type' : 'Application/json',
+      "User-Agent": "NODEJS LINKHUB SDK"
     }
 
     if(ForwardIP) headers['x-lh-forwarded'] = ForwardIP;
@@ -76,7 +77,10 @@ exports.getBalance = function(Token,UseStaticIP,UseGAIP,success,error) {
           host : targetURL,
           path : '/' + token.serviceID + '/Point',
           method : 'GET',
-          headers : {Authorization : 'Bearer ' + token.session_token}
+          headers : {
+            Authorization : 'Bearer ' + token.session_token,
+                    "User-Agent": "NODEJS LINKHUB SDK"
+                  }
         }
 
         var req = _this.httpRequest(null,options);
@@ -100,7 +104,10 @@ exports.getPartnerBalance = function(Token,UseStaticIP,UseGAIP,success,error) {
           host : targetURL,
           path : '/' + token.serviceID + '/PartnerPoint',
           method : 'GET',
-          headers : {Authorization : 'Bearer ' + token.session_token}
+          headers : {
+            Authorization : 'Bearer ' + token.session_token,
+          "User-Agent": "NODEJS LINKHUB SDK"
+        }
         }
 
         var req = _this.httpRequest(null,options);
@@ -126,7 +133,10 @@ exports.getPartnerURL = function(Token,UseStaticIP,UseGAIP,TOGO,success,error) {
           host : targetURL,
           path : '/' + token.serviceID + '/URL?TG='+TOGO,
           method : 'GET',
-          headers : {Authorization : 'Bearer ' + token.session_token}
+          headers : {
+            Authorization : 'Bearer ' + token.session_token,
+          "User-Agent": "NODEJS LINKHUB SDK"
+        }
         }
 
         var req = _this.httpRequest(null,options);
