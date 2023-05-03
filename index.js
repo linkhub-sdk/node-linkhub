@@ -253,16 +253,15 @@ exports.getTime = function (UseStaticIP, UseGAIP) {
   if (_this._options.UseLocalTimeYN == undefined)
     _this._options.UseLocalTimeYN = true;
 
+  if (!_this._options.UseLocalTimeYN) {
+    targetURL = "https://" + targetURL;
+  }
+
   if (_this._options.UseLocalTimeYN) {
     return new Date().toISOString();
   } else {
-    // try {
-      var response = request("GET", targetURL + "/Time");
-      return response.body.toString("utf8");
-    // } catch (err) {
-    //   var response = request("GET", "https://" + targetURL + "/Time");
-    //   return response.body.toString("utf8");
-    // }
+    var response = request("GET", targetURL + "/Time");
+    return response.body.toString("utf8");
   }
 };
 
@@ -275,6 +274,5 @@ exports.getTargetURL = function (UseStaticIP, UseGAIP) {
   } else {
     url = "auth.linkhub.co.kr";
   }
-
-  return this._options.UseLocalTimeYN ? url : "https://" + url;
+  return url;
 };
