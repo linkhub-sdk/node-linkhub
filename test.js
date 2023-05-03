@@ -3,7 +3,6 @@ var linkhub = require("./");
 linkhub.initialize({
   LinkID: "TESTER",
   SecretKey: "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I=",
-  UseLocalTimeYN: false,
   //AuthURL : 'http://192.168.0.228:9080',
   defaultErrorHandler: function (linkhubException) {
     console.log(

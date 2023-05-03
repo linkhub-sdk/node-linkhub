@@ -256,22 +256,25 @@ exports.getTime = function (UseStaticIP, UseGAIP) {
   if (_this._options.UseLocalTimeYN) {
     return new Date().toISOString();
   } else {
-    try {
+    // try {
       var response = request("GET", targetURL + "/Time");
       return response.body.toString("utf8");
-    } catch (err) {
-      var response = request("GET", "https://" + targetURL + "/Time");
-      return response.body.toString("utf8");
-    }
+    // } catch (err) {
+    //   var response = request("GET", "https://" + targetURL + "/Time");
+    //   return response.body.toString("utf8");
+    // }
   }
 };
 
 exports.getTargetURL = function (UseStaticIP, UseGAIP) {
+  var url = "";
   if (UseGAIP) {
-    return "ga-auth.linkhub.co.kr";
+    url = "ga-auth.linkhub.co.kr";
   } else if (UseStaticIP) {
-    return "static-auth.linkhub.co.kr";
+    url = "static-auth.linkhub.co.kr";
   } else {
-    return "auth.linkhub.co.kr";
+    url = "auth.linkhub.co.kr";
   }
+
+  return this._options.UseLocalTimeYN ? url : "https://" + url;
 };
