@@ -1,17 +1,29 @@
-var linkhub = require('./');
+var linkhub = require("./");
 
 linkhub.initialize({
-  LinkID :'TESTER',
-  SecretKey : 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I=',
-  UseLocalTimeYN : false,
+  LinkID: "TESTER",
+  SecretKey: "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I=",
+  UseLocalTimeYN: false,
   //AuthURL : 'http://192.168.0.228:9080',
-  defaultErrorHandler :  function(linkhubException) {
-    console.log('Exception Occur : [' + linkhubException.code + '] ' + linkhubException.message);
-  }
+  defaultErrorHandler: function (linkhubException) {
+    console.log(
+      "Exception Occur : [" +
+        linkhubException.code +
+        "] " +
+        linkhubException.message
+    );
+  },
 });
 
-var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null,true,true);
-//
+var token = linkhub.newToken(
+  "POPBILL_TEST",
+  "1234567890",
+  ["member", "110"],
+  null,
+  true,
+  true
+);
+
 // token(
 //   success = function(tk){
 //     console.log('' + tk.expiration);
@@ -50,5 +62,5 @@ var token = linkhub.newToken('POPBILL_TEST','1234567890',['member','110'],null,t
 // );
 //
 
-// console.log(linkhub.getTime(false, false));
+// console.log(linkhub.getTime(true, true));
 // console.log(exports)
