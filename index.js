@@ -218,11 +218,9 @@ exports.httpRequest = function (data, options) {
             typeof error === "function"
               ? error
               : _this._options.defaultErrorHandler;
-          if (err.code === "ENOTFOUND") {
-            err.code = "-99999999";
-            err.message = "호스트를 찾을 수 없습니다.";
-            errorHandler(err);
-          }
+          err.message = err.code + " " + err.message;
+          err.code = "-99999999";
+          errorHandler(err);
         })
         .end(data);
     };
@@ -254,11 +252,9 @@ exports.httpRequest = function (data, options) {
             typeof error === "function"
               ? error
               : _this._options.defaultErrorHandler;
-          if (err.code === "ENOTFOUND") {
-            err.code = "-99999999";
-            err.message = "호스트를 찾을 수 없습니다.";
-            errorHandler(err);
-          }
+          err.message = err.code + " " + err.message;
+          err.code = "-99999999";
+          errorHandler(err);
         })
         .end(data);
     };
@@ -282,8 +278,16 @@ exports.getTime = function (UseStaticIP, UseGAIP) {
   if (_this._options.UseLocalTimeYN) {
     return new Date().toISOString();
   } else {
-    var response = request("GET", targetURL + "/Time");
-    return response.body.toString("utf8");
+    try {
+      var response = request("GET", targetURL + "/Time");
+      return response.body.toString("utf8");
+    } catch (err) {
+      var errorHandler =
+        typeof error === "function"
+          ? error
+          : _this._options.defaultErrorHandler;
+      errorHandler(err);
+    }
   }
 };
 
