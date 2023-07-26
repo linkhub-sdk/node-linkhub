@@ -213,6 +213,17 @@ exports.httpRequest = function (data, options) {
             else if (error) error(JSON.parse(res));
           });
         })
+        .on("error", function (err) {
+          var errorHandler =
+            typeof error === "function"
+              ? error
+              : _this._options.defaultErrorHandler;
+          if (err.code === "ENOTFOUND") {
+            err.code = "-99999999";
+            err.message = "호스트를 찾을 수 없습니다.";
+            errorHandler(err);
+          }
+        })
         .end(data);
     };
   } else {
@@ -237,6 +248,17 @@ exports.httpRequest = function (data, options) {
             if (this.statusCode == "200") success(JSON.parse(res));
             else if (error) error(JSON.parse(res));
           });
+        })
+        .on("error", function (err) {
+          var errorHandler =
+            typeof error === "function"
+              ? error
+              : _this._options.defaultErrorHandler;
+          if (err.code === "ENOTFOUND") {
+            err.code = "-99999999";
+            err.message = "호스트를 찾을 수 없습니다.";
+            errorHandler(err);
+          }
         })
         .end(data);
     };

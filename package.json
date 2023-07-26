@@ -1,6 +1,6 @@
 {
   "name": "linkhub",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "linkhub auth modules for www.linkhub.co.kr",
   "author": "Kim Seongjun <pallet027@gmail.com>",
   "contributors": [
@@ -33,5 +33,8 @@
   },
   "preferGlobal": true,
   "subdomain": "linkhub",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.4.2"
+  }
 }
