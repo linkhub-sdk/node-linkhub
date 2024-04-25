@@ -29,7 +29,6 @@
     "sdk"
   ],
   "dependencies": {
-    "sync-request": "^2.0.0"
   },
   "preferGlobal": true,
   "subdomain": "linkhub",
