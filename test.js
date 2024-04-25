@@ -16,7 +16,7 @@ linkhub.initialize({
 });
 
 
-let barocert_tokenbuilder = linkhub.TokenBuilder({
+var barocert_tokenbuilder = linkhub.TokenBuilder({
     LinkID: "LINKHUB_BC",
     SecretKey: "npCAl0sHPpJqlvMbrcBmNagrxkQ74w9Sl0A+M++kMCE=",
     defaultErrorHandler: function (linkhubException) {
@@ -29,7 +29,7 @@ let barocert_tokenbuilder = linkhub.TokenBuilder({
     },
 });
 
-let token = linkhub.newToken(
+var token = linkhub.newToken(
   "POPBILL_TEST",
   "1234567890",
   ["member", "110"],
@@ -44,7 +44,7 @@ let token = linkhub.newToken(
    }
  );
 
- let bc_token = barocert_tokenbuilder.newToken(
+var bc_token = barocert_tokenbuilder.newToken(
      "BAROCERT",
      null,
      ['partner', '401', '402', '403', '404'],
@@ -72,7 +72,7 @@ token(
     success = function(tk){
         console.log('TK expiry :' + tk.expiration);
 
-        let bc_token = barocert_tokenbuilder.newToken(
+        var bc_token = barocert_tokenbuilder.newToken(
             "BAROCERT",
             null,
             ['partner', '401', '402', '403', '404'],
