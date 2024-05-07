@@ -1,6 +1,6 @@
-var linkhub = require("./");
+let linkhub = require("./");
 
-var tokenBuilder = linkhub.TokenBuilder({
+let tokenBuilder = linkhub.TokenBuilder({
     LinkID: "LINKHUB_BC",
     SecretKey: "npCAl0sHPpJqlvMbrcBmNagrxkQ74w9Sl0A+M++kMCE=",
     defaultErrorHandler: function (linkhubException) {
@@ -13,7 +13,7 @@ var tokenBuilder = linkhub.TokenBuilder({
     },
 });
 
-var token = tokenBuilder.newToken(
+let token = tokenBuilder.newToken(
      "BAROCERT",
      null,
      ['partner', '401', '402', '403', '404'],
